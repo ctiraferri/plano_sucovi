@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Plano Feria SUCOVI 2027</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#eaeaea;color:#333}
+header{background:#2c3e50;color:#fff;padding:12px 16px;text-align:center;position:sticky;top:0;z-index:100}
+header h1{font-size:18px;font-weight:700;letter-spacing:1px}
+header p{font-size:11px;opacity:.7;margin-top:2px}
+.floor-section{padding:8px}
+.floor-title{text-align:center;font-size:16px;font-weight:700;color:#2c3e50;margin:8px 0;padding:6px;background:#fff;border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.svg-wrap{width:100%;background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.12);overflow:hidden}
+.svg-wrap svg{display:block;width:100%}
+.stand{cursor:pointer;stroke:#444;stroke-width:.6}
+.stand:active{opacity:.7;stroke:#000;stroke-width:1.5}
+.slabel{pointer-events:none;font-weight:700;fill:#fff;text-anchor:middle;dominant-baseline:central;font-size:11px}
+.ref-rect{fill:#d5d5d5;stroke:#999;stroke-width:.5}
+.ref-label{font-size:9px;fill:#555;text-anchor:middle;dominant-baseline:central;font-weight:600}
+.zone-label{font-weight:700;fill:#444;text-anchor:middle;dominant-baseline:central;font-size:12px;letter-spacing:.5px}
+.zone-label-sm{font-size:9px;fill:#666;text-anchor:middle;dominant-baseline:central;font-weight:600}
+.zone-bg{stroke-dasharray:5,3;stroke-width:1}
+#info{position:fixed;bottom:0;left:0;right:0;background:#fff;border-radius:16px 16px 0 0;box-shadow:0 -4px 20px rgba(0,0,0,.25);padding:20px 20px 32px;transform:translateY(100%);transition:transform .3s ease;z-index:200}
+#info.open{transform:translateY(0)}
+#info .handle{width:40px;height:4px;background:#ccc;border-radius:2px;margin:0 auto 12px}
+#info .num{font-size:26px;font-weight:800;color:#2c3e50}
+#info .zone{font-size:13px;color:#777;margin-top:2px}
+#info .brand{font-size:16px;font-weight:600;margin-top:10px;color:#2c3e50}
+#info .desc{font-size:13px;color:#666;margin-top:4px}
+#info .rubro{font-size:12px;color:#999;margin-top:4px;font-style:italic}
+#info .instagram{font-size:13px;color:#e1306c;margin-top:6px}
+#info .instagram a{color:#e1306c;text-decoration:none}
+#info .contacto{font-size:13px;color:#555;margin-top:4px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:199;opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.open{opacity:1;pointer-events:auto}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>FERIA SUCOVI 2027</h1>
+  <p>Tocá un stand para ver info</p>
+</header>
+
+<section class="floor-section">
+  <div class="floor-title">PLANTA BAJA</div>
+  <div class="svg-wrap">
+    <svg id="svg-pb" viewBox="0 0 1000 1150" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+</section>
+
+<section class="floor-section">
+  <div class="floor-title">1ER. PISO</div>
+  <div class="svg-wrap">
+    <svg id="svg-p1" viewBox="0 0 1000 1300" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+</section>
+
+<div class="overlay" id="overlay"></div>
+<div id="info">
+  <div class="handle"></div>
+  <div class="num" id="si-num"></div>
+  <div class="zone" id="si-zone"></div>
+  <div class="brand" id="si-brand"></div>
+  <div class="desc" id="si-desc"></div>
+  <div class="rubro" id="si-rubro"></div>
+  <div class="instagram" id="si-instagram"></div>
+  <div class="contacto" id="si-contacto"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function S(fl,zone,nums,x,y,w,h,dx,dy,col){
+  return nums.map((n,i)=>({id:fl+'-'+n,n,fl,zone,c:col,brand:'',desc:'',rubro:'',instagram:'',contacto:'',
+    x:x+i*dx,y:y+i*dy,w,h}));
+}
+const C={
+  pink:'#e84393', purple:'#7c5cbf', teal:'#17a2b8', orange:'#e67e22',
+  dkblue:'#2c5282', blue:'#3182ce', magenta:'#9b59b6', yellow:'#eab308',
+  red:'#c0392b', grey:'#7f8c8d', dkred:'#a93226'
+};
+
+// ══════════════════════════════════════════
+// PLANTA BAJA STANDS
+// ══════════════════════════════════════════
+const PB=[
+  // --- PATIO CUBIERTO top rows ---
+  ...S('pb','PATIO CUBIERTO',[275,276,277,278,279,280], 195,28, 48,28, 53,0, C.pink),
+  ...S('pb','PATIO CUBIERTO',[281,282,283,284], 560,28, 48,28, 53,0, C.pink),
+  ...S('pb','PATIO CUBIERTO',[286,287,288], 195,95, 75,40, 85,0, C.purple),
+  ...S('pb','PATIO CUBIERTO',[289,290,291], 480,95, 75,40, 85,0, C.purple),
+  ...S('pb','PATIO CUBIERTO',[274,273,272,271], 195,195, 75,40, 85,0, C.purple),
+  ...S('pb','PATIO CUBIERTO',[270,269,268,267], 545,195, 75,40, 85,0, C.purple),
+  ...S('pb','PATIO CUBIERTO',[293], 920,28, 55,110, 0,0, C.teal),
+  ...S('pb','PATIO CUBIERTO',[292], 920,155, 55,110, 0,0, C.teal),
+
+  // --- Transition row ---
+  ...S('pb','PATIO CUBIERTO',[260], 50,290, 65,35, 0,0, C.teal),
+  ...S('pb','PATIO CUBIERTO',[261], 125,290, 65,35, 0,0, C.teal),
+  ...S('pb','PATIO CUBIERTO',[262,263,264,265,266], 230,290, 52,35, 58,0, C.purple),
+  ...S('pb','PATIO CUBIERTO',[295,296,297], 630,290, 52,35, 58,0, C.teal),
+
+  // --- Right column: 160-167 ---
+  ...S('pb','INTERIOR',[160], 880,300, 48,40, 0,0, C.pink),
+  ...S('pb','INTERIOR',[161], 880,348, 48,40, 0,0, C.pink),
+  ...S('pb','INTERIOR',[162], 880,396, 48,40, 0,0, C.pink),
+  ...S('pb','INTERIOR',[163], 880,444, 48,40, 0,0, C.pink),
+  ...S('pb','INTERIOR',[164], 880,492, 48,40, 0,0, C.pink),
+  ...S('pb','INTERIOR',[165], 880,540, 48,40, 0,0, C.pink),
+  ...S('pb','INTERIOR',[166], 880,588, 48,40, 0,0, C.pink),
+  ...S('pb','INTERIOR',[167], 880,636, 48,40, 0,0, C.pink),
+
+  // --- SEMICUBIERTO left column ---
+  ...S('pb','SEMICUBIERTO',[259], 42,355, 58,42, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[258], 42,403, 58,42, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[257], 42,451, 58,42, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[256], 42,499, 58,42, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[255], 42,547, 58,42, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[254], 42,595, 58,42, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[253], 42,643, 58,42, 0,0, C.teal),
+  // gap
+  ...S('pb','SEMICUBIERTO',[251], 42,790, 58,42, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[250], 42,838, 58,42, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[249], 42,886, 58,42, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[248], 42,934, 58,42, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[247], 42,982, 58,42, 0,0, C.teal),
+
+  // --- MAIN GRID: Pair 1 (dark blue) 239-246 / 238-231 ---
+  ...S('pb','GALERÍA',[239], 135,355, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[240], 135,403, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[241], 135,451, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[242], 135,499, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[243], 135,547, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[244], 135,595, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[245], 135,643, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[246], 135,691, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[238], 213,355, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[237], 213,403, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[236], 213,451, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[235], 213,499, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[234], 213,547, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[233], 213,595, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[232], 213,643, 68,42, 0,0, C.dkblue),
+  ...S('pb','GALERÍA',[231], 213,691, 68,42, 0,0, C.dkblue),
+
+  // --- MAIN GRID: Pair 2 (orange) 127-120 / 128-135 ---
+  ...S('pb','GALERÍA',[127], 320,355, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[126], 320,403, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[125], 320,451, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[124], 320,499, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[123], 320,547, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[122], 320,595, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[121], 320,643, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[120], 320,691, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[128], 398,355, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[129], 398,403, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[130], 398,451, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[131], 398,499, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[132], 398,547, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[133], 398,595, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[134], 398,643, 68,42, 0,0, C.orange),
+  ...S('pb','GALERÍA',[135], 398,691, 68,42, 0,0, C.orange),
+
+  // --- MAIN GRID: Pair 3 (blue) 223-230 / 222-215 ---
+  ...S('pb','GALERÍA',[223], 505,355, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[224], 505,403, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[225], 505,451, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[226], 505,499, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[227], 505,547, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[228], 505,595, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[229], 505,643, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[230], 505,691, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[222], 583,355, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[221], 583,403, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[220], 583,451, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[219], 583,499, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[218], 583,547, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[217], 583,595, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[216], 583,643, 68,42, 0,0, C.blue),
+  ...S('pb','GALERÍA',[215], 583,691, 68,42, 0,0, C.blue),
+
+  // --- PATIO DESCUBIERTO (pushed down, +30) ---
+  ...S('pb','PATIO DESCUBIERTO',[207,208,209,210,211,212], 194,770, 52,35, 58,0, C.magenta),
+
+  // --- 206-202 column ---
+  ...S('pb','PATIO CUBIERTO',[206], 420,830, 55,40, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[205], 420,878, 55,40, 0,0, C.teal),
+  ...S('pb','PATIO CUBIERTO',[204], 420,926, 55,40, 0,0, C.teal),
+  ...S('pb','SEMICUBIERTO',[203], 420,974, 55,40, 0,0, C.teal),
+  ...S('pb','PATIO DESCUBIERTO',[202], 420,1022, 55,40, 0,0, C.teal),
+
+  // --- Left bottom: 102, 101, 100 (yellow) ---
+  ...S('pb','SEMICUBIERTO',[102], 210,830, 70,52, 0,0, C.yellow),
+  ...S('pb','SEMICUBIERTO',[101], 210,892, 70,52, 0,0, C.yellow),
+  ...S('pb','SEMICUBIERTO',[100], 210,954, 70,52, 0,0, C.yellow),
+
+  // --- 99 below 202, same teal color ---
+  ...S('pb','PATIO DESCUBIERTO',[99], 420,1070, 55,38, 0,0, C.teal),
+];
+
+// ══════════════════════════════════════════
+// 1ER PISO STANDS
+// ══════════════════════════════════════════
+const P1=[
+  // --- Top right: 353, 352, 351 (grey) ---
+  ...S('p1','SEMICUBIERTO',[353], 640,50, 60,45, 0,0, C.grey),
+  ...S('p1','SEMICUBIERTO',[352], 640,103, 60,45, 0,0, C.grey),
+  ...S('p1','SEMICUBIERTO',[351], 640,156, 60,45, 0,0, C.grey),
+
+  // --- Far right column: PATIO DESCUBIERTO 358-354 (no gaps) ---
+  ...S('p1','PATIO DESCUBIERTO',[358], 845,50, 58,44, 0,0, C.red),
+  ...S('p1','PATIO DESCUBIERTO',[357], 845,102, 58,44, 0,0, C.red),
+  ...S('p1','PATIO DESCUBIERTO',[356], 845,154, 58,44, 0,0, C.red),
+  ...S('p1','PATIO DESCUBIERTO',[355], 845,206, 58,44, 0,0, C.red),
+  ...S('p1','PATIO DESCUBIERTO',[354], 845,258, 58,44, 0,0, C.red),
+
+  // --- 360 (left) ---
+  ...S('p1','SEMICUBIERTO',[360], 55,210, 52,44, 0,0, C.red),
+
+  // --- Row: 338-345, then 350 ---
+  ...S('p1','GALERÍA ANCHA',[338,339,340,341,342,343,344,345], 145,210, 52,40, 60,0, C.blue),
+  ...S('p1','GALERÍA ANCHA',[350], 630,210, 52,40, 0,0, C.blue),
+
+  // --- Left column GALERÍA ANGOSTA: 336-324 (no gaps, evenly spaced dy:48) ---
+  ...S('p1','GALERÍA ANGOSTA',[336], 55,310, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[335], 55,358, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[334], 55,406, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[333], 55,454, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[332], 55,502, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[331], 55,550, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[330], 55,598, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[329], 55,646, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[328], 55,694, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[327], 55,742, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[326], 55,790, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[325], 55,838, 52,42, 0,0, C.red),
+  ...S('p1','GALERÍA ANGOSTA',[324], 55,886, 52,42, 0,0, C.red),
+
+  // --- Row at 325 level: 301, 302-304, 315 ---
+  ...S('p1','SALÓN CUBIERTO',[301], 150,838, 50,38, 0,0, C.dkred),
+  ...S('p1','SALÓN CUBIERTO',[302,303,304], 215,838, 48,38, 53,0, C.dkred),
+  ...S('p1','SALÓN CUBIERTO',[315], 380,838, 50,38, 0,0, C.dkred),
+
+  // --- Below: 200, 314, 313 ---
+  ...S('p1','SALÓN CUBIERTO',[200], 150,882, 40,32, 0,0, C.dkred),
+  ...S('p1','SALÓN CUBIERTO',[314], 380,882, 50,38, 0,0, C.dkred),
+  ...S('p1','SALÓN CUBIERTO',[313], 380,926, 50,38, 0,0, C.dkred),
+
+  // --- Right column PATIO CUBIERTO: 316-322 ---
+  ...S('p1','PATIO CUBIERTO',[316], 610,882, 50,38, 0,0, C.red),
+  ...S('p1','PATIO CUBIERTO',[317], 610,924, 50,38, 0,0, C.red),
+  ...S('p1','PATIO CUBIERTO',[318], 610,966, 50,38, 0,0, C.red),
+  ...S('p1','PATIO CUBIERTO',[319], 610,1008, 50,38, 0,0, C.red),
+  ...S('p1','PATIO CUBIERTO',[320], 610,1050, 50,38, 0,0, C.red),
+  ...S('p1','PATIO CUBIERTO',[321], 610,1092, 50,38, 0,0, C.red),
+  ...S('p1','PATIO CUBIERTO',[322], 610,1134, 50,38, 0,0, C.red),
+
+  // --- PATIO CUBIERTO bottom section (matching PDF) ---
+  // ESCALERA left, 310 right of it
+  ...S('p1','PATIO CUBIERTO',[310], 240,990, 50,38, 0,0, C.red),
+  // 308 below 310
+  ...S('p1','PATIO CUBIERTO',[308], 240,1060, 50,38, 0,0, C.red),
+  // 309, 312 center pair
+  ...S('p1','PATIO CUBIERTO',[309], 370,1010, 52,38, 0,0, C.red),
+  ...S('p1','PATIO CUBIERTO',[312], 428,1010, 52,38, 0,0, C.red),
+  // 306, 311 below
+  ...S('p1','PATIO CUBIERTO',[306], 370,1058, 52,38, 0,0, C.red),
+  ...S('p1','PATIO CUBIERTO',[311], 428,1058, 52,38, 0,0, C.red),
+  // 323 bottom right of center zone
+  ...S('p1','PATIO CUBIERTO',[323], 492,1108, 52,38, 0,0, C.red),
+];
+
+const ALL_STANDS = [...PB, ...P1];
+
+// ══════════════════════════════════════════
+// GOOGLE SHEETS INTEGRATION
+// ══════════════════════════════════════════
+const SHEET_CSV_URL = 'TU_URL_AQUI';
+
+function parseCSVRow(line){
+  const cols=[];let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(inQ){if(ch==='"'){if(line[i+1]==='"'){cur+='"';i++;}else inQ=false;}else cur+=ch;}
+    else{if(ch==='"')inQ=true;else if(ch===','){cols.push(cur.trim());cur='';}else cur+=ch;}
+  }
+  cols.push(cur.trim());return cols;
+}
+
+function parseCSV(text){
+  const lines=text.split(/\r?\n/).filter(l=>l.trim());
+  if(lines.length<2)return[];
+  const headers=parseCSVRow(lines[0]);
+  return lines.slice(1).map(line=>{
+    const vals=parseCSVRow(line);
+    const obj={};headers.forEach((h,i)=>obj[h]=vals[i]||'');return obj;
+  });
+}
+
+async function mergeSheetData(){
+  if(SHEET_CSV_URL==='TU_URL_AQUI')return;
+  try{
+    const ctrl=new AbortController();
+    const timer=setTimeout(()=>ctrl.abort(),3000);
+    const resp=await fetch(SHEET_CSV_URL+'&t='+Math.floor(Date.now()/60000),{signal:ctrl.signal});
+    clearTimeout(timer);
+    const text=await resp.text();
+    const rows=parseCSV(text);
+    const map=new Map();
+    rows.forEach(r=>{const n=parseInt(r['Nro Stand']);if(n)map.set(n,r);});
+    ALL_STANDS.forEach(s=>{
+      const r=map.get(s.n);if(!r)return;
+      s.brand=r['Marca / Nombre']||'';
+      s.rubro=r['Rubro']||'';
+      s.desc=r['Descripcion']||'';
+      s.instagram=(r['Instagram']||'').replace(/^@/,'');
+      s.contacto=r['Contacto']||'';
+    });
+  }catch(e){/* degradación elegante: continuar sin datos */}
+}
+
+// ══════════════════════════════════════════
+// REFERENCE ELEMENTS (not stands)
+// ══════════════════════════════════════════
+const REFS_PB = [
+  // Zone backgrounds
+  {type:'zone', x:30,y:15, w:950,h:265, color:'#c8b8db', label:'PATIO CUBIERTO', lx:500, ly:170},
+  {type:'zone', x:30,y:340, w:78,h:360, color:'#a8d8ea', label:'', sublabel:'SEMICUBIERTO', lx:69, ly:520, vertical:true},
+  {type:'zone', x:30,y:760, w:78,h:290, color:'#a8d8ea'},
+  {type:'zone', x:115,y:340, w:560,h:410, color:'#e8e8e8'},
+  // ESCENARIO
+  {type:'ref', x:130,y:40, w:30,h:140, label:'ESCENARIO', vertical:true},
+  // ACCESO PLANTA ALTA
+  {type:'ref', x:42,y:40, w:75,h:55, label:'ACCESO\nPL. ALTA'},
+  // INGRESO labels — vertical, centered in gaps between stands
+  {type:'label', x:207,y:308, text:'INGRESO', size:8, vertical:true},
+  {type:'label', x:567,y:308, text:'INGRESO', size:8, vertical:true},
+  {type:'label', x:836,y:308, text:'INGRESO', size:8, vertical:true},
+  // BAÑOS
+  {type:'ref', x:15,y:175, w:60,h:30, label:'BAÑO MUJ.'},
+  {type:'ref', x:15,y:212, w:60,h:30, label:'BAÑO HOM.'},
+  // INGRESO left
+  {type:'label', x:100,y:270, text:'INGRESO', size:8},
+  // MESAS (right side of grid)
+  {type:'label', x:720,y:375, text:'MESAS', size:9},
+  {type:'label', x:720,y:445, text:'MESAS', size:9},
+  {type:'label', x:720,y:515, text:'MESAS', size:9},
+  {type:'label', x:720,y:585, text:'MESAS', size:9},
+  {type:'label', x:720,y:655, text:'MESAS', size:9},
+  // DULCES
+  {type:'label', x:880,y:690, text:'DULCES', size:9},
+  // PATIO DESCUBIERTO (label above stand row, pushed down)
+  {type:'zone', x:130,y:740, w:470,h:70, color:'#d5b8e8', label:'PATIO DESCUBIERTO', lx:365, ly:758},
+  // CAJAS / DESPACHO / DJ (pushed down +30)
+  {type:'ref', x:690,y:760, w:60,h:28, label:'CAJAS'},
+  {type:'ref', x:760,y:760, w:70,h:28, label:'DESPACHO'},
+  {type:'ref', x:690,y:798, w:40,h:28, label:'DJ'},
+  {type:'ref', x:740,y:798, w:70,h:28, label:'DESPACHO'},
+  // PARRILLA
+  {type:'ref', x:750,y:850, w:120,h:60, label:'PARRILLA'},
+  // ACCESO bottom
+  {type:'ref', x:40,y:1050, w:110,h:40, label:'ACCESO'},
+  {type:'label', x:95,y:1100, text:'A PLANTA ALTA', size:7},
+];
+
+const REFS_P1 = [
+  // SEMICUBIERTO top
+  {type:'zone', x:30,y:30, w:595,h:175, color:'#d5d5d5', label:'SEMICUBIERTO', lx:350, ly:110},
+  // ESCALERA top
+  {type:'ref', x:30,y:15, w:50,h:30, label:'ESCALERA'},
+  // ACCESO top
+  {type:'ref', x:85,y:55, w:100,h:35, label:'ACCESO\nA PL. BAJA'},
+  // PATIO DESCUBIERTO right — label LEFT of stands so it's visible
+  {type:'zone', x:830,y:35, w:85,h:280, color:'#d5b8e8', label:'', sublabel:'PATIO DESCUBIERTO', lx:840, ly:170, vertical:true},
+  // GALERÍA ANCHA
+  {type:'label', x:400,y:265, text:'GALERÍA ANCHA', size:10},
+  // GALERÍA ANGOSTA / SEMICUBIERTO left — labels LEFT of stands
+  {type:'zone', x:35,y:295, w:80,h:650, color:'#d5d5d5'},
+  {type:'label', x:28,y:500, text:'SEMICUBIERTO', size:8, vertical:true},
+  {type:'label', x:40,y:700, text:'GALERÍA ANGOSTA', size:7, vertical:true},
+  // --- BOTTOM SECTION ---
+  // ESCALERA (left of 310)
+  {type:'ref', x:145,y:985, w:85,h:48, label:'ESCALERA'},
+  // ACCESO A PLANTA BAJA (below escalera)
+  {type:'ref', x:130,y:1048, w:100,h:40, label:'ACCESO\nA PL. BAJA'},
+  // PATIO CUBIERTO center zone (label below stands)
+  {type:'zone', x:300,y:975, w:255,h:185, color:'#b8c5d5', label:'PATIO CUBIERTO', lx:425, ly:1120},
+  // PATIO CUBIERTO right vertical zone
+  {type:'zone', x:570,y:870, w:100,h:310, color:'#b8c5d5', label:'', sublabel:'PATIO CUBIERTO', lx:590, ly:1030, vertical:true},
+];
+
+// ══════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════
+function svgEl(tag, attrs){
+  const el=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(const[k,v] of Object.entries(attrs)) el.setAttribute(k,v);
+  return el;
+}
+
+function renderRefs(svg, refs){
+  refs.forEach(r=>{
+    if(r.type==='zone'){
+      svg.appendChild(svgEl('rect',{x:r.x,y:r.y,width:r.w,height:r.h,rx:5,fill:r.color,'fill-opacity':.25,stroke:r.color,'stroke-opacity':.4,class:'zone-bg'}));
+      if(r.label){
+        const t=svgEl('text',{x:r.lx||r.x+r.w/2, y:r.ly||r.y+r.h/2, class:'zone-label'});
+        t.textContent=r.label; svg.appendChild(t);
+      }
+      if(r.sublabel){
+        const t=svgEl('text',{x:r.lx||r.x+r.w/2, y:(r.ly||r.y+r.h/2)+(r.label?16:0), class:'zone-label-sm'});
+        if(r.vertical) t.setAttribute('transform',`rotate(-90,${r.lx||r.x+r.w/2},${(r.ly||r.y+r.h/2)+(r.label?16:0)})`);
+        t.textContent=r.sublabel; svg.appendChild(t);
+      }
+    }
+    if(r.type==='ref'){
+      svg.appendChild(svgEl('rect',{x:r.x,y:r.y,width:r.w,height:r.h,rx:3,class:'ref-rect'}));
+      if(r.label){
+        if(r.vertical){
+          const t=svgEl('text',{x:r.x+r.w/2,y:r.y+r.h/2,class:'ref-label',transform:`rotate(-90,${r.x+r.w/2},${r.y+r.h/2})`});
+          t.textContent=r.label; svg.appendChild(t);
+        } else {
+          const lines=r.label.split('\n');
+          lines.forEach((line,i)=>{
+            const t=svgEl('text',{x:r.x+r.w/2, y:r.y+r.h/2+(i-(lines.length-1)/2)*11, class:'ref-label'});
+            t.textContent=line; svg.appendChild(t);
+          });
+        }
+      }
+    }
+    if(r.type==='label'){
+      const t=svgEl('text',{x:r.x,y:r.y,class:'ref-label','font-size':r.size||9});
+      if(r.vertical) t.setAttribute('transform',`rotate(-90,${r.x},${r.y})`);
+      t.textContent=r.text; svg.appendChild(t);
+    }
+  });
+}
+
+function renderStands(svg, stands){
+  stands.forEach(s=>{
+    const rect=svgEl('rect',{x:s.x,y:s.y,width:s.w,height:s.h,rx:3,fill:s.c,class:'stand','data-id':s.id});
+    rect.addEventListener('click',()=>showInfo(s));
+    svg.appendChild(rect);
+    const fs=Math.min(s.w,s.h)*0.38;
+    if(fs>=6){
+      const t=svgEl('text',{x:s.x+s.w/2,y:s.y+s.h/2,class:'slabel','font-size':fs});
+      t.textContent=s.n; svg.appendChild(t);
+    }
+  });
+}
+
+const svgPB=document.getElementById('svg-pb');
+const svgP1=document.getElementById('svg-p1');
+renderRefs(svgPB, REFS_PB);
+renderRefs(svgP1, REFS_P1);
+
+(async()=>{
+  await mergeSheetData();
+  renderStands(svgPB, PB);
+  renderStands(svgP1, P1);
+})();
+
+// ══════════════════════════════════════════
+// BOTTOM SHEET
+// ══════════════════════════════════════════
+const info=document.getElementById('info');
+const overlay=document.getElementById('overlay');
+let activeEl=null;
+
+function showInfo(s){
+  if(activeEl) activeEl.classList.remove('active');
+  activeEl=document.querySelector(`[data-id="${s.id}"]`);
+  if(activeEl) activeEl.classList.add('active');
+  document.getElementById('si-num').textContent=`Stand #${s.n}`;
+  document.getElementById('si-zone').textContent=`${s.zone} — ${s.fl==='pb'?'Planta Baja':'1er Piso'}`;
+  document.getElementById('si-brand').textContent=s.brand||'';
+  document.getElementById('si-desc').textContent=s.desc||(s.brand?'':'Sin datos aún');
+  document.getElementById('si-rubro').textContent=s.rubro?`Rubro: ${s.rubro}`:'';
+  const igEl=document.getElementById('si-instagram');
+  if(s.instagram){const h=s.instagram.replace(/^@/,'');igEl.innerHTML=`<a href="https://instagram.com/${h}" target="_blank" rel="noopener">@${h}</a>`;}else{igEl.innerHTML='';}
+  document.getElementById('si-contacto').textContent=s.contacto||'';
+  info.classList.add('open');
+  overlay.classList.add('open');
+}
+
+function closeInfo(){
+  info.classList.remove('open');
+  overlay.classList.remove('open');
+  if(activeEl){activeEl.classList.remove('active');activeEl=null;}
+}
+overlay.addEventListener('click',closeInfo);
+let ty=0;
+info.addEventListener('touchstart',e=>{ty=e.touches[0].clientY;});
+info.addEventListener('touchmove',e=>{if(e.touches[0].clientY-ty>40)closeInfo();});
+</script>
+</body>
+</html>
