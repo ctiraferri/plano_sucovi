@@ -447,7 +447,8 @@ function renderStands(svg, stands){
     const fs=Math.min(s.w,s.h)*0.38;
     if(fs>=6){
       const t=svgEl('text',{x:s.x+s.w/2,y:s.y+s.h/2,class:'slabel','font-size':fs});
-      t.textContent=s.n; svg.appendChild(t);
+      const lbl=s.brand&&s.brand.toLowerCase()==='disponible'?'D'+s.n:s.n;
+      t.textContent=lbl; svg.appendChild(t);
     }
   });
 }
